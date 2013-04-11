@@ -56,22 +56,22 @@ var Doodle = {
 	
 	//// Create the doodle table
 	// p_type: The type of tile to use for the base layer
-    createDoodleTable: function(p_type) {
-        // Set default for type
-        p_type = p_type || "grass";
-    
-        // Remove any existing table
-        $("#map").children().remove();
-        
-        // Loop through the Doodle columns
-        for (var row = 0; row < Doodle.DOODLE_HEIGHT; row++) {
-            // Loop through the Doodle rows
-            for (var col = 0; col < Doodle.DOODLE_WIDTH; col++) {
-                // Add a new tile to map
-                $("#map").append(Doodle.createTile(col, row, 0, p_type));
-            }
-        }
-    }, 
+	createDoodleTable: function(p_type) {
+		// Set default for type
+		p_type = p_type || "grass";
+		
+		// Remove any existing table
+		$("#map").children().remove();
+		
+		// Loop through the Doodle columns
+		for (var row = 0; row < Doodle.DOODLE_HEIGHT; row++) {
+		    // Loop through the Doodle rows
+		    for (var col = 0; col < Doodle.DOODLE_WIDTH; col++) {
+		        // Add a new tile to map
+		        $("#map").append(Doodle.createTile(col, row, 0, p_type));
+		    }
+		}
+	}, 
 	
 	//// Create a tile on the map
 	// p_position: The position in the row (x-axis)
