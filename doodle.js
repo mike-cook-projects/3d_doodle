@@ -71,7 +71,7 @@ var Doodle = {
                 $("#map").append(Doodle.createTile(col, row, 0, p_type));
             }
         }
-    },
+    }, 
 	
 	//// Create a tile on the map
 	// p_position: The position in the row (x-axis)
