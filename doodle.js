@@ -19,7 +19,7 @@ var Doodle = {
 	init: function() {
 		// Set yp the map
 		Doodle.setupMap();
-	
+		
 		// The current step
 		var current_step = 0;
 		
