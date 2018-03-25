@@ -8,6 +8,7 @@ var Doodle = {
 	// "Constants"
 	DOODLE_WIDTH: 10, // The number of cells on the x-axis
 	DOODLE_HEIGHT: 10, // The number of cells on the y-axis
+	DEFAULT_TILE_TYPE: 'sand',
 
 	// The state of the mouse click
 	leftDown: false,
@@ -17,14 +18,14 @@ var Doodle = {
 
 	//// Initialization
 	init: function() {
-		// Set yp the map
+		// Set up the map
 		Doodle.setupMap();
 
 		// The current step
 		var current_step = 0;
 
 		// Create the doodle table
-		Doodle.createDoodleTable();
+		Doodle.buildMap();
 	},
 
 	//// Set up the map
@@ -54,23 +55,25 @@ var Doodle = {
 		});
 	},
 
-	//// Create the doodle table
+	//// Creates a map grid and appends it to the map node
 	// p_type: The type of tile to use for the base layer
-	createDoodleTable: function(p_type) {
-		// Set default for type
-		p_type = p_type || "lava";
+	buildMap: function(p_type) {
+		const $map = $('#map');
+		const fragment = document.createDocumentFragment();
+		const tileType = p_type || Doodle.DEFAULT_TILE_TYPE;
 
 		// Remove any existing table
-		$("#map").children().remove();
+		$map.children().remove();
 
 		// Loop through the Doodle columns
-		for (var row = 0; row < Doodle.DOODLE_HEIGHT; row++) {
+		for (let row = 0; row < Doodle.DOODLE_HEIGHT; row++) {
 		    // Loop through the Doodle rows
-		    for (var col = 0; col < Doodle.DOODLE_WIDTH; col++) {
-		        // Add a new tile to map
-		        $("#map").append(Doodle.createTile(col, row, 0, 'sand'));
+		    for (let col = 0; col < Doodle.DOODLE_WIDTH; col++) {
+						fragment.appendChild(Doodle.createTile(col, row, 0, tileType));
 		    }
 		}
+
+		$map.append(fragment);
 	},
 
 	createPerson: function(p_position, p_row, p_level) {
@@ -260,6 +263,6 @@ $(document).ready(function() {
 	$("#map").append(Doodle.createPerson(4, 4, 1));
 
 	$("#base_type").change(function() {
-		Doodle.createDoodleTable($("#base_type").val());
+		Doodle.buildMap($("#base_type").val());
 	});
 });
