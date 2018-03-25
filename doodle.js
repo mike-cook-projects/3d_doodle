@@ -55,6 +55,12 @@ var Doodle = {
 		});
 	},
 
+	setEntityZIndex(layerLevel, row, position) {
+		// adding one to make sure successive entities don't
+		// have the same z-index, which messes up the perspective rendering
+		return (layerLevel + 1) + (row + 1) - position;
+	},
+
 	//// Creates a map grid and appends it to the map node
 	// p_type: The type of tile to use for the base layer
 	buildMap: function(p_type) {
@@ -94,7 +100,7 @@ var Doodle = {
 	    // Set the tile's position and z-index information
 	    $(person).css({
 	        // Each row on top of the last, each tile in a row below the last
-	        zIndex: (p_level * 2000) + (p_row * 100) - p_position,
+	        zIndex: Doodle.setEntityZIndex(p_level, p_row, p_position),
 	        // Left value
 	        left: (45 * p_position + row_left_offset + 35) + 'px',
 	        // Top value
@@ -136,19 +142,22 @@ var Doodle = {
 	    // Add the faces to the tile
 	    tile.appendChild(left_face);
 	    tile.appendChild(right_face);
-	    tile.appendChild(top_face);
+			tile.appendChild(top_face);
+			
+			const $tile = $(tile);
 
 	    // Get the row offset
 	    var row_left_offset = p_row * 45;
 	    var row_top_offset = p_row * 26;
 
 	    // Get the level offset
-	    var level_offset_top = p_level * 22;
-
+			var level_offset_top = p_level * 22;
+			var zIndex = Doodle.setEntityZIndex(p_level, p_row, p_position);
+			
 	    // Set the tile's position and z-index information
-	    $(tile).css({
+	  	$tile.css({
 	        // Each row on top of the last, each tile in a row below the last
-	        zIndex: (p_level * 2000) + (p_row * 100) - p_position,
+	        zIndex,
 	        // Left value
 	        left: (45 * p_position + row_left_offset) + 'px',
 	        // Top value
@@ -158,15 +167,15 @@ var Doodle = {
 	    // Check if this is a ghost block (you click through it)
 	    if (p_type === " guide") {
 	        // Ignore clicks
-	        $(tile).css("pointer-events", "none");
+	        $tile.css("pointer-events", "none");
 	    }
 
 	    // Set the onClick function
-	    $(tile).children(".top, .left, .right").click(Doodle.onTileClick);
+	    $tile.children(".top, .left, .right").click(Doodle.onTileClick);
 
 	    // Set the over / out functions
-	    $(tile).children(".top, .left, .right").mouseover(Doodle.onTileOver);
-	    $(tile).children(".top, .left, .right").mouseout(Doodle.onTileOut);
+	    $tile.children(".top, .left, .right").mouseover(Doodle.onTileOver);
+	    $tile.children(".top, .left, .right").mouseout(Doodle.onTileOut);
 
 	    // Send the tile back
 	    return tile;
@@ -215,7 +224,7 @@ var Doodle = {
         var type = $("#tile_type").val();
 
         // Create a new tile
-        $("#map").append(Doodle.createTile(col, row, level, 'glass'));
+        $("#map").append(Doodle.createTile(col, row, level, 'grass'));
 	},
 
 	//// Event for mouseover on a tile
