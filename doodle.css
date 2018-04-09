@@ -139,8 +139,7 @@ td.blue {
 }
 
 .top {
-    -moz-transform: rotate(-45deg) skew(15deg, 15deg);
-    -webkit-transform: rotate(-45deg) skew(15deg, 15deg);
+    transform: rotate(-45deg) skew(15deg, 15deg);
     background-color: #DDDDDD;
     left: 25px;
 
